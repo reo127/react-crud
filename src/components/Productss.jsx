@@ -20,7 +20,7 @@ const Productss = () => {
                 {
                     products.map((product, index) => {
                         return (
-                            <Card title={product?.title} desc={product?.description} image={product?.thumbnail} brand={product?.brand} key={index} />
+                            <Card title={product?.title} desc={product?.description} image={product?.thumbnail} brand={product?.brand} id={product?.id} key={index} />
                         )
                     })
                 }
