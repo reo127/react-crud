@@ -5,6 +5,12 @@ import UpdatePage from "./components/UpdatePage"
 import DataTableComponent from "./components/DataTable"
 import Prime from "./components/Prime"
 
+import "primereact/resources/themes/lara-light-cyan/theme.css";
+
+import 'primeicons/primeicons.css';
+        
+
+
 
 
 

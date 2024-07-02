@@ -11,6 +11,7 @@ const initialState = {
 }
 
 export const fetchProducts = createAsyncThunk("fetchProducts", async()=> {
+    console.log("first fetch")
     const products = await axios.get("https://dummyjson.com/products")
     return products
 });
@@ -27,6 +28,8 @@ export const updateProduct = createAsyncThunk("udpateproduct", async({title, des
     console.log("res from productSclice", res)
     return res
 })
+
+
 
 
 export const productSlice = createSlice({

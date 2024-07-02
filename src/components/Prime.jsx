@@ -17,70 +17,20 @@ import { InputNumber } from 'primereact/inputnumber';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { Tag } from 'primereact/tag';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProducts } from '../state/slice/productSlice';
 
 export default function Prime() {
-    let ProductService = [
-        {
-            id: '1000',
-            code: 'f230fh0g3',
-            name: 'Bamboo Watch',
-            description: 'Product Description',
-            image: 'bamboo-watch.jpg',
-            price: 65,
-            category: 'Accessories',
-            quantity: 24,
-            inventoryStatus: 'INSTOCK',
-            rating: 5
-        },
-        {
-            id: '1000',
-            code: 'f230fh0g3',
-            name: 'Bamboo Watch',
-            description: 'Product Description',
-            image: 'bamboo-watch.jpg',
-            price: 65,
-            category: 'Accessories',
-            quantity: 24,
-            inventoryStatus: 'INSTOCK',
-            rating: 5
-        },
-        {
-            id: '1000',
-            code: 'f230fh0g3',
-            name: 'Bamboo Watch',
-            description: 'Product Description',
-            image: 'bamboo-watch.jpg',
-            price: 65,
-            category: 'Accessories',
-            quantity: 24,
-            inventoryStatus: 'INSTOCK',
-            rating: 5
-        },
-        {
-            id: '1000',
-            code: 'f230fh0g3',
-            name: 'Bamboo Watch',
-            description: 'Product Description',
-            image: 'bamboo-watch.jpg',
-            price: 65,
-            category: 'Accessories',
-            quantity: 24,
-            inventoryStatus: 'INSTOCK',
-            rating: 5
-        },
-        {
-            id: '1000',
-            code: 'f230fh0g3',
-            name: 'Bamboo Watch',
-            description: 'Product Description',
-            image: 'bamboo-watch.jpg',
-            price: 65,
-            category: 'Accessories',
-            quantity: 24,
-            inventoryStatus: 'INSTOCK',
-            rating: 5
-        },
-    ]
+    const dispatch = useDispatch();
+    useEffect(() => {
+        console.log("kjslkfjsadlkfjadskl")
+        dispatch(fetchProducts());
+    }, []);
+
+    const ProductService = useSelector((state)=> state.product.products)
+    console.log(ProductService)
+    // let ProductService = []
+    
     let emptyProduct = {
         id: null,
         name: '',
@@ -104,10 +54,7 @@ export default function Prime() {
     const toast = useRef(null);
     const dt = useRef(null);
 
-    useEffect(() => {
-        // ProductService.getProducts().then((data) => setProducts(data));
-    }, []);
-
+ 
     const formatCurrency = (value) => {
         return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
     };
@@ -255,7 +202,7 @@ export default function Prime() {
     };
 
     const imageBodyTemplate = (rowData) => {
-        return <img src={`https://primefaces.org/cdn/primereact/images/product/${rowData.image}`} alt={rowData.image} className="shadow-2 border-round" style={{ width: '64px' }} />;
+        return <img src={`${rowData.thumbnail}`} alt={rowData.image} className="shadow-2 border-round" style={{ width: '64px' }} />;
     };
 
     const priceBodyTemplate = (rowData) => {
@@ -272,10 +219,10 @@ export default function Prime() {
 
     const actionBodyTemplate = (rowData) => {
         return (
-            <React.Fragment>
-                <Button icon="pi pi-pencil" rounded outlined className="mr-2" onClick={() => editProduct(rowData)} />
+            <>
+                <Button icon="pi pi-pencil" rounded outlined className="ml-4" onClick={() => editProduct(rowData)} />
                 <Button icon="pi pi-trash" rounded outlined severity="danger" onClick={() => confirmDeleteProduct(rowData)} />
-            </React.Fragment>
+            </>
         );
     };
 
@@ -334,9 +281,9 @@ export default function Prime() {
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products" globalFilter={globalFilter} header={header}>
                     <Column selectionMode="multiple" exportable={false}></Column>
-                    <Column field="code" header="Code" sortable style={{ minWidth: '12rem' }}></Column>
-                    <Column field="name" header="Name" sortable style={{ minWidth: '16rem' }}></Column>
-                    <Column field="image" header="Image" body={imageBodyTemplate}></Column>
+                    <Column field="id" header="Code" sortable style={{ minWidth: '12rem' }}></Column>
+                    <Column field="brand" header="brand" sortable style={{ minWidth: '16rem' }}></Column>
+                    <Column field="thumbnail" header="Image" body={imageBodyTemplate}></Column>
                     <Column field="price" header="Price" body={priceBodyTemplate} sortable style={{ minWidth: '8rem' }}></Column>
                     <Column field="category" header="Category" sortable style={{ minWidth: '10rem' }}></Column>
                     <Column field="rating" header="Reviews" body={ratingBodyTemplate} sortable style={{ minWidth: '12rem' }}></Column>
@@ -345,7 +292,7 @@ export default function Prime() {
                 </DataTable>
             </div>
 
-            <Dialog visible={productDialog} style={{ width: '32rem' }} breakpoints={{ '960px': '75vw', '641px': '90vw' }} header="Product Details" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
+            <Dialog visible={productDialog} style={{ width: '32rem' }} breakpoints={{ '960px': '75vw', '641px': '90vw', }} header="Product Details" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
                 {product.image && <img src={`https://primefaces.org/cdn/primereact/images/product/${product.image}`} alt={product.image} className="product-image block m-auto pb-3" />}
                 <div className="field">
                     <label htmlFor="name" className="font-bold">
@@ -361,7 +308,7 @@ export default function Prime() {
                     <InputTextarea id="description" value={product.description} onChange={(e) => onInputChange(e, 'description')} required rows={3} cols={20} />
                 </div>
 
-                <div className="field">
+                <div className="field ">
                     <label className="mb-3 font-bold">Category</label>
                     <div className="formgrid grid">
                         <div className="field-radiobutton col-6">
@@ -404,7 +351,7 @@ export default function Prime() {
                     <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
                     {product && (
                         <span>
-                            Are you sure you want to delete <b>{product.name}</b>?
+                            Are you sure you want to delete <b>{product.title}</b>?
                         </span>
                     )}
                 </div>
