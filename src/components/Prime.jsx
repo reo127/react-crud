@@ -19,6 +19,7 @@ import { InputText } from 'primereact/inputtext';
 import { Tag } from 'primereact/tag';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts } from '../state/slice/productSlice';
+import { updateProduct } from '../state/slice/productSlice';
 
 export default function Prime() {
     const dispatch = useDispatch();
@@ -54,6 +55,7 @@ export default function Prime() {
     const toast = useRef(null);
     const dt = useRef(null);
 
+
  
     const formatCurrency = (value) => {
         return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
@@ -79,15 +81,17 @@ export default function Prime() {
     };
 
     const saveProduct = () => {
+        console.log("product update object => ",product)
+        dispatch(updateProduct({title: product.title, desc: product.desc, image: product.thumbnail, brand: product.brand, pid: product.id}))
         setSubmitted(true);
-
-        if (product.name.trim()) {
+        
+        if (product.title.trim()) {
             let _products = [...products];
             let _product = { ...product };
-
+            
             if (product.id) {
                 const index = findIndexById(product.id);
-
+                
                 _products[index] = _product;
                 toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Product Updated', life: 3000 });
             } else {
@@ -96,7 +100,7 @@ export default function Prime() {
                 _products.push(_product);
                 toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Product Created', life: 3000 });
             }
-
+            
             setProducts(_products);
             setProductDialog(false);
             setProduct(emptyProduct);
@@ -104,6 +108,7 @@ export default function Prime() {
     };
 
     const editProduct = (product) => {
+        console.log("Eadit Product => ", product)
         setProduct({ ...product });
         setProductDialog(true);
     };
@@ -270,6 +275,8 @@ export default function Prime() {
         </React.Fragment>
     );
 
+    console.log("product => ",product)
+
     return (
         <div>
             <Toast ref={toast} />
@@ -298,7 +305,7 @@ export default function Prime() {
                     <label htmlFor="name" className="font-bold">
                         Name
                     </label>
-                    <InputText id="name" value={product.name} onChange={(e) => onInputChange(e, 'name')} required autoFocus className={classNames({ 'p-invalid': submitted && !product.name })} />
+                    <InputText id="name" value={product.title} onChange={(e) => onInputChange(e, 'title')} required autoFocus className={classNames({ 'p-invalid': submitted && !product.name })} />
                     {submitted && !product.name && <small className="p-error">Name is required.</small>}
                 </div>
                 <div className="field">
@@ -341,7 +348,7 @@ export default function Prime() {
                         <label htmlFor="quantity" className="font-bold">
                             Quantity
                         </label>
-                        <InputNumber id="quantity" value={product.quantity} onValueChange={(e) => onInputNumberChange(e, 'quantity')} />
+                        <InputNumber id="quantity" value={product.stock} onValueChange={(e) => onInputNumberChange(e, 'stock')} />
                     </div>
                 </div>
             </Dialog>
