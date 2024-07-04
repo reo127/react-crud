@@ -21,10 +21,9 @@ export const fetchProductById = createAsyncThunk("fetchProductById", async(id)=>
     return product
 });
 
-export const updateProduct = createAsyncThunk("udpateproduct", async({title, desc, image, brand, pid})=> {
+export const updateProduct = createAsyncThunk("udpateproduct", async(product)=> {
     console.log("first update")
-    console.log(title, desc, image, brand, pid)
-    const res = await axios.put(`https://dummyjson.com/products/${pid}`, {title, description: desc, thumbnail: image, brand})
+    const res = await axios.put(`https://dummyjson.com/products/${product.id}`, {title: product.title, description: product.description, thumbnail: product.thumbnail, brand: product.brand, category: product.category, price: product.price, stock: product.stock})
     console.log("res from productSclice", res)
     return res
 })

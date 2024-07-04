@@ -18,8 +18,7 @@ import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { Tag } from 'primereact/tag';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchProducts } from '../state/slice/productSlice';
-import { updateProduct } from '../state/slice/productSlice';
+import { fetchProducts, updateProduct } from '../state/slice/productSlice';
 
 export default function Prime() {
     const dispatch = useDispatch();
@@ -81,8 +80,10 @@ export default function Prime() {
     };
 
     const saveProduct = () => {
-        console.log("product update object => ",product)
-        dispatch(updateProduct({title: product.title, desc: product.desc, image: product.thumbnail, brand: product.brand, pid: product.id}))
+        console.log("Updated producdts............")
+        console.log("saveProduct => ",product)
+        dispatch(updateProduct(product))
+        
         setSubmitted(true);
         
         if (product.title.trim()) {
